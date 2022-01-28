@@ -1,0 +1,41 @@
+specVersion: 0.0.1
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: ProfileGraph
+    network: rinkeby
+    source:
+      address: "0x67017eF60be88294711B8a653604824e44885a3D"
+      abi: ProfileGraph
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.5
+      language: wasm/assemblyscript
+      entities:
+        - Approval
+        - ApprovalForAll
+        - Follow
+        - NewProfile
+        - OwnershipTransferred
+        - Transfer
+        - Unfollow
+      abis:
+        - name: ProfileGraph
+          file: ./abis/ProfileGraph.json
+      eventHandlers:
+        - event: Approval(indexed address,indexed address,indexed uint256)
+          handler: handleApproval
+        - event: ApprovalForAll(indexed address,indexed address,bool)
+          handler: handleApprovalForAll
+        - event: Follow(uint256,uint256)
+          handler: handleFollow
+        - event: NewProfile(uint256,address)
+          handler: handleNewProfile
+        - event: OwnershipTransferred(indexed address,indexed address)
+          handler: handleOwnershipTransferred
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+        - event: Unfollow(uint256,uint256)
+          handler: handleUnfollow
+      file: ./src/mapping.ts
