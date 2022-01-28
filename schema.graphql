@@ -1,6 +1,22 @@
-type ExampleEntity @entity {
+type Profile @entity {
   id: ID!
-  count: BigInt!
-  owner: Bytes! # address
-  approved: Bytes! # address
+  tokenID: BigInt!
+  contentURI: String!
+  metadataURI: String!
+  creator: User!
+  owner: User!
+  followers: [Follower!]! @derivedFrom(field: "following")
+  # following: [BigInt!]
+}
+
+type User @entity {
+  id: ID!
+  profiles: [Profile!]! @derivedFrom(field: "owner")
+  created: [Profile!]! @derivedFrom(field: "creator")
+}
+
+type Follower @entity {
+  id: ID!
+  tokenID: BigInt!
+  following: Profile!
 }
