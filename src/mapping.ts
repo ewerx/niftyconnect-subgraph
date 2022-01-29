@@ -102,19 +102,16 @@ export function handleTransfer(event: Transfer): void {
 }
 
 export function handleFollow(event: Follow): void {
-  let follower = Follower.load(event.params.follower.toString());
-  if (!follower) {
-    follower = new Follower(event.params.follower.toString());
-    follower.following = event.params.followed.toString();
-    follower.save();
-  }
+  let follower_id = event.params.follower.toString() + '.' + event.params.followed.toString();
+  let follower = new Follower(follower_id);
+  follower.tokenID = event.params.follower;
+  follower.following = event.params.followed.toString();
+  follower.save();
 }
 
 export function handleUnfollow(event: Unfollow): void {
-  let follower = Follower.load(event.params.follower.toString());
-  if (follower) {
-    store.remove("Follower", follower.id);
-  }
+  let follower_id = event.params.follower.toString() + '.' + event.params.unfollowed.toString();
+  store.remove("Follower", follower_id);
 }
 
 export function handleSetAvatar(event: SetAvatar): void {

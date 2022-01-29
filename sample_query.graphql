@@ -1,0 +1,12 @@
+{
+  profiles(first: 5) {
+    tokenID
+    contentURI
+    owner {
+      id
+    }
+    followers {
+      tokenID
+    }
+  }
+}
