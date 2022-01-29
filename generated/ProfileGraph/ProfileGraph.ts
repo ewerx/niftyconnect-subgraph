@@ -128,6 +128,36 @@ export class OwnershipTransferred__Params {
   }
 }
 
+export class SetAvatar extends ethereum.Event {
+  get params(): SetAvatar__Params {
+    return new SetAvatar__Params(this);
+  }
+}
+
+export class SetAvatar__Params {
+  _event: SetAvatar;
+
+  constructor(event: SetAvatar) {
+    this._event = event;
+  }
+
+  get tokenId(): BigInt {
+    return this._event.parameters[0].value.toBigInt();
+  }
+
+  get avatarContract(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+
+  get avatarId(): BigInt {
+    return this._event.parameters[2].value.toBigInt();
+  }
+
+  get avatarURI(): string {
+    return this._event.parameters[3].value.toString();
+  }
+}
+
 export class Transfer extends ethereum.Event {
   get params(): Transfer__Params {
     return new Transfer__Params(this);
@@ -397,17 +427,17 @@ export class ProfileGraph extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  tokenURI(tokenId: BigInt): string {
+  tokenURI(param0: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(param0)
     ]);
 
     return result[0].toString();
   }
 
-  try_tokenURI(tokenId: BigInt): ethereum.CallResult<string> {
+  try_tokenURI(param0: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(tokenId)
+      ethereum.Value.fromUnsignedBigInt(param0)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
@@ -655,6 +685,44 @@ export class SetApprovalForAllCall__Outputs {
   _call: SetApprovalForAllCall;
 
   constructor(call: SetApprovalForAllCall) {
+    this._call = call;
+  }
+}
+
+export class SetAvatarCall extends ethereum.Call {
+  get inputs(): SetAvatarCall__Inputs {
+    return new SetAvatarCall__Inputs(this);
+  }
+
+  get outputs(): SetAvatarCall__Outputs {
+    return new SetAvatarCall__Outputs(this);
+  }
+}
+
+export class SetAvatarCall__Inputs {
+  _call: SetAvatarCall;
+
+  constructor(call: SetAvatarCall) {
+    this._call = call;
+  }
+
+  get avatarContractAddrs(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get avatarTokenId(): BigInt {
+    return this._call.inputValues[1].value.toBigInt();
+  }
+
+  get niftyTokenId(): BigInt {
+    return this._call.inputValues[2].value.toBigInt();
+  }
+}
+
+export class SetAvatarCall__Outputs {
+  _call: SetAvatarCall;
+
+  constructor(call: SetAvatarCall) {
     this._call = call;
   }
 }

@@ -6,7 +6,7 @@ dataSources:
     name: ProfileGraph
     network: rinkeby
     source:
-      address: "0x67017eF60be88294711B8a653604824e44885a3D"
+      address: "0xA64cB322Db746e728AF0AfF2958d31610021dea6"
       abi: ProfileGraph
       startBlock: 10067748
     mapping:
@@ -20,12 +20,14 @@ dataSources:
         - name: ProfileGraph
           file: ./abis/ProfileGraph.json
       eventHandlers:
-        - event: Follow(uint256,uint256)
+        - event: Follow(indexed uint256,indexed uint256)
           handler: handleFollow
         - event: NewProfile(uint256,address)
           handler: handleNewProfile
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-        - event: Unfollow(uint256,uint256)
+        - event: Unfollow(indexed uint256,indexed uint256)
           handler: handleUnfollow
+        - event: SetAvatar(indexed uint256,address,uint256,string)
+          handler: handleSetAvatar
       file: ./src/mapping.ts
