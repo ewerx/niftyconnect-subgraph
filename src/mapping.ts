@@ -8,6 +8,7 @@ import {
   OwnershipTransferred,
   Transfer,
   Unfollow,
+  SetAvatar
 } from "../generated/ProfileGraph/ProfileGraph";
 
 import { Profile, User, Follower } from "../generated/schema";
@@ -108,5 +109,13 @@ export function handleUnfollow(event: Unfollow): void {
   let follower = Follower.load(event.params.follower.toString());
   if (follower) {
     store.remove("Follower", follower.id);
+  }
+}
+
+export function handleSetAvatar(event: SetAvatar): void {
+  let token = Profile.load(event.params.tokenId.toString());
+  if (token) {
+    token.contentURI = event.params.avatarURI;
+    token.save();
   }
 }
