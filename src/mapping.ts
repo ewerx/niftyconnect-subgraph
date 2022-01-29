@@ -1,4 +1,4 @@
-import { BigInt, store } from "@graphprotocol/graph-ts";
+import { BigInt, store, log } from "@graphprotocol/graph-ts";
 import {
   ProfileGraph,
   Approval,
@@ -72,7 +72,12 @@ export function handleNewProfile(event: NewProfile): void {
     token.creator = event.params.owner.toHexString();
     token.tokenID = event.params.tokenId;
     let tokenContract = ProfileGraph.bind(event.address);
-    token.contentURI = tokenContract.tokenURI(event.params.tokenId);
+    let callResult = tokenContract.try_tokenURI(event.params.tokenId);
+    if (callResult.reverted) {
+      log.info('tokenURI reverted', [])
+    } else {
+      token.contentURI = callResult.value
+    }
   }
   token.owner = event.params.owner.toHexString();
   token.save();
