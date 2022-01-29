@@ -515,7 +515,7 @@
     "inputs": [
       {
         "internalType": "uint256",
-        "name": "",
+        "name": "niftyTokenId",
         "type": "uint256"
       }
     ],

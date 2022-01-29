@@ -427,17 +427,17 @@ export class ProfileGraph extends ethereum.SmartContract {
     return ethereum.CallResult.fromValue(value[0].toString());
   }
 
-  tokenURI(param0: BigInt): string {
+  tokenURI(niftyTokenId: BigInt): string {
     let result = super.call("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(niftyTokenId)
     ]);
 
     return result[0].toString();
   }
 
-  try_tokenURI(param0: BigInt): ethereum.CallResult<string> {
+  try_tokenURI(niftyTokenId: BigInt): ethereum.CallResult<string> {
     let result = super.tryCall("tokenURI", "tokenURI(uint256):(string)", [
-      ethereum.Value.fromUnsignedBigInt(param0)
+      ethereum.Value.fromUnsignedBigInt(niftyTokenId)
     ]);
     if (result.reverted) {
       return new ethereum.CallResult();
